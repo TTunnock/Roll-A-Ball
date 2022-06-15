@@ -31,4 +31,15 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if we collide with a pickup, destroy the pickup
+        if (other.gameObject.CompareTag("Pickup"))
+        {
+            Destroy(other.gameObject);
+        }
+
+    }
 }
+

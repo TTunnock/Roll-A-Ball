@@ -1,6 +1,6 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
-mtllib Tomato.mtl
+mtllib tomato.mtl
 g default
 v 0.148778 -1.982208 8.986856
 v 0.126558 -1.982208 8.943247

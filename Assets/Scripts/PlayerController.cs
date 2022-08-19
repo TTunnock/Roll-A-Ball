@@ -11,20 +11,23 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     public float speed = 1.0f;
     public int pickupCount;
-    int totalPickups; 
+    int totalPickups;
     private bool wonGame = false;
     [Header("UI")]
     public TMP_Text scoreText;
     public TMP_Text winText;
+    
     public GameObject inGamePanel;
     public GameObject winPanel;
     public Image pickupFill;
     float pickupChunk;
 
 
-
-    void Start()
+    
+    
+    private void Start()
     {
+        
         //Turn off our win text object
         winPanel.SetActive(false);
         //Turn on our in game panel
@@ -41,6 +44,7 @@ public class PlayerController : MonoBehaviour
         //Display the pickups to the user
         CheckPickups();
     }
+  
 
     void FixedUpdate()
     {
@@ -61,9 +65,18 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    
+    
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {
+       
+
+
+        
         //if we collide with a pickup, destroy the pickup
         if (other.gameObject.CompareTag("Pickup"))
         {
@@ -82,7 +95,7 @@ public class PlayerController : MonoBehaviour
     void CheckPickups()
     {
         //Display the new pickupCount to the player
-        scoreText.text = "Pickups Left:" + pickupCount.ToString() + "/" + totalPickups.ToString();
+        scoreText.text = "Fruits Left:" + pickupCount.ToString() + "/" + totalPickups.ToString();
         //Check if the pickupCount == 0
         if (pickupCount == 0)
         {

@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     public float speed = 1.0f;
     public int pickupCount;
     int totalPickups;
+    GameObject resetPoint;
+    bool resetting = false;
+    Color originalColour;
     private bool wonGame = false;
     [Header("UI")]
     public TMP_Text scoreText;
@@ -43,11 +46,16 @@ public class PlayerController : MonoBehaviour
         pickupFill.fillAmount = 0;
         //Display the pickups to the user
         CheckPickups();
+        resetPoint = GameObject.Find("Reset Point");
+        originalColour = GetComponent<Renderer>().material.color;
     }
   
 
     void FixedUpdate()
     {
+        if (resetting)
+            return;
+
         if (wonGame == true)
             return;
 
@@ -117,6 +125,33 @@ public class PlayerController : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Respawn"))
+        {
+            StartCoroutine(ResetPlayer());
+        }
+    }
+
+    public IEnumerator ResetPlayer()
+    {
+        resetting = true;
+        GetComponent<Renderer>().material.color = Color.black;
+        rb.velocity = Vector3.zero;
+        Vector3 startPos = transform.position;
+        float resetSpeed = 2f;
+        var i = 0.0f;
+        var rate = 1.0f / resetSpeed;
+        while (i < 1.0f)
+        {
+            i += Time.deltaTime * rate;
+            transform.position = Vector3.Lerp(startPos, resetPoint.transform.position, i);
+            yield return null;
+        }
+        GetComponent<Renderer>().material.color = originalColour;
+        resetting = false;
+
+    }
 }
 
 

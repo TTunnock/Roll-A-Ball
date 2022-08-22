@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     //float values require f after the value
     Rigidbody rb;
     public float speed = 1.0f;
-    public int pickupCount;
+    public int Score;
     int totalPickups;
     GameObject resetPoint;
     bool resetting = false;
@@ -38,11 +38,11 @@ public class PlayerController : MonoBehaviour
         //Gets the rigidbody component attached to this game object
         rb = GetComponent<Rigidbody>();
         //work out how many pickups are in the scene and store in variable (pickupCount)
-        pickupCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
+        Score = GameObject.FindGameObjectsWithTag("Pickup").Length;
         //Asign the amount of pickups to the total pickups
-        totalPickups = pickupCount;
+        totalPickups = Score;
         //Work out the amount of fill for our pickup fill
-        pickupChunk = 1.0f / totalPickups;
+        pickupChunk = 1.0f / Score;
         pickupFill.fillAmount = 0;
         //Display the pickups to the user
         CheckPickups();
@@ -73,23 +73,23 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    
-    
+
+
 
 
 
 
     private void OnTriggerEnter(Collider other)
     {
-       
 
 
-        
+
+
         //if we collide with a pickup, destroy the pickup
         if (other.gameObject.CompareTag("Pickup"))
         {
-            //Decrement the pickupCount when we collide with a pickup
-            pickupCount -= 1;
+            //Increase the Score when we collide with a pickup
+            Score += 1;
             //Increase the fill amount of our pickup fill image
             pickupFill.fillAmount = pickupFill.fillAmount + pickupChunk;
             //Display the pickups to the user
@@ -97,15 +97,26 @@ public class PlayerController : MonoBehaviour
 
             Destroy(other.gameObject);
         }
+        //if we collide with a pickup, destroy the pickup
+        if (other.gameObject.CompareTag("NegativePickup"))
+        {
+            //Decrement the Score when we collide with a pickup
+            Score -= 1;
+            //Decrease the fill amount of our pickup fill image
+            pickupFill.fillAmount = pickupFill.fillAmount - pickupChunk;
+            //Display the pickups to the user
+            CheckPickups();
 
+            Destroy(other.gameObject);
+        }
     }
 
     void CheckPickups()
     {
         //Display the new pickupCount to the player
-        scoreText.text = "Fruits Left:" + pickupCount.ToString() + "/" + totalPickups.ToString();
+        scoreText.text = "Fruits Left:" + Score.ToString() + "/" + totalPickups.ToString();
         //Check if the pickupCount == 0
-        if (pickupCount == 0)
+        if (Score == 0)
         {
             //Turn on off in game panel
             inGamePanel.SetActive(false);

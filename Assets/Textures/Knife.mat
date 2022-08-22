@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: InsideBend
+  m_Name: Knife
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 4
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 898ee48664bb8024698407aa8ab5d2e4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7276acb4d8239fa498c53b2bf079ce71, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -40,15 +40,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: d36dcca2b6f23e247bf2f25495987365, type: 3}
+        m_Texture: {fileID: 2800000, guid: cccfac8451c6967448aa1c73fbad33a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 5574ef996bb912c4b9745d88b4524f5f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 75621c87df9e7fa4aaf9cb1e3d6b32fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: cdfbd22e8838e154b951c99039a05323, type: 3}
+        m_Texture: {fileID: 2800000, guid: 02b1111b82321b34384e275053806c6d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:

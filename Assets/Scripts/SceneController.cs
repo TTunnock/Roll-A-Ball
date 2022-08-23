@@ -11,9 +11,9 @@ public class SceneController : MonoBehaviour
 
     //Reloads the current scene we are in
    public void ReloadScene()
-    {
+   {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
-    }
+   }
 
     //Loads out Title scene. Must be called Title exactly
     public void ToTitleScene()

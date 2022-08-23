@@ -4,33 +4,45 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
+
 public class PlayerController : MonoBehaviour
 {
     //variables
     //float values require f after the value
-    Rigidbody rb;
+    public Rigidbody rb;
     public float speed = 1.0f;
-    public int Score;
+    
+    
+    public int TopScore;
+    private int Score;
     int totalPickups;
     GameObject resetPoint;
     bool resetting = false;
     Color originalColour;
-    private bool wonGame = false;
-    [Header("UI")]
-    public TMP_Text scoreText;
-    public TMP_Text winText;
-    
+    public bool wonGame = false;
     public GameObject inGamePanel;
     public GameObject winPanel;
     public Image pickupFill;
     float pickupChunk;
 
+    [Header("UI")]
+    public GameObject gameOverScreen;
+    public TMP_Text scoreText;
+    public Image winText;
 
     
-    
-    private void Start()
+
+   
+
+    //Controllers
+    GameController gameController;
+    Timer timer;
+
+
+    void Start()
     {
-        
+
         //Turn off our win text object
         winPanel.SetActive(false);
         //Turn on our in game panel
@@ -38,18 +50,28 @@ public class PlayerController : MonoBehaviour
         //Gets the rigidbody component attached to this game object
         rb = GetComponent<Rigidbody>();
         //work out how many pickups are in the scene and store in variable (pickupCount)
-        Score = GameObject.FindGameObjectsWithTag("Pickup").Length;
+        TopScore = GameObject.FindGameObjectsWithTag("Pickup").Length;
         //Asign the amount of pickups to the total pickups
-        totalPickups = Score;
+        totalPickups = TopScore;
         //Work out the amount of fill for our pickup fill
-        pickupChunk = 1.0f / Score;
+        pickupChunk = 1.0f / TopScore;
         pickupFill.fillAmount = 0;
+        //Start Score at zero
+        Score = 0;
+        gameOverScreen.SetActive(false);
         //Display the pickups to the user
         CheckPickups();
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
+
+        gameController = FindObjectOfType<GameController>();
+        timer = FindObjectOfType<Timer>();
+        if (gameController.gameType == GameType.SpeedRun)
+            StartCoroutine(timer.StartCountdown());
+
+        
     }
-  
+
 
     void FixedUpdate()
     {
@@ -57,6 +79,10 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (wonGame == true)
+            return;
+
+
+        if (gameController.gameType == GameType.SpeedRun && !timer.IsTiming())
             return;
 
         //movement controls
@@ -89,9 +115,9 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Pickup"))
         {
             //Increase the Score when we collide with a pickup
-            Score += 1;
+            Score += 2;
             //Increase the fill amount of our pickup fill image
-            pickupFill.fillAmount = pickupFill.fillAmount + pickupChunk;
+            pickupFill.fillAmount = pickupFill.fillAmount + pickupChunk + pickupChunk;
             //Display the pickups to the user
             CheckPickups();
 
@@ -114,22 +140,23 @@ public class PlayerController : MonoBehaviour
     void CheckPickups()
     {
         //Display the new pickupCount to the player
-        scoreText.text = "Fruits Left:" + Score.ToString() + "/" + totalPickups.ToString();
+        scoreText.text = "Score:" + Score.ToString();
         //Check if the pickupCount == 0
-        if (Score == 0)
+        if (Score == TopScore)
         {
-            //Turn on off in game panel
-            inGamePanel.SetActive(false);
-            winPanel.SetActive(true);
-            //remove controls from player
-            wonGame = true;
-            //Set the velocity of the rigidbody to zero
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
+            WinGame();
         }
-    } 
+    }
     
+    void WinGame()
+    {
+        gameOverScreen.SetActive(true);
+
+        if (gameController.gameType == GameType.SpeedRun)
+            timer.StopTimer();
+    }
+    
+
     //Temporary reset functionality
     public void ResetGame()
     {
@@ -138,7 +165,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Respawn"))
+        if (collision.gameObject.CompareTag("Respawn"))
         {
             StartCoroutine(ResetPlayer());
         }
@@ -163,7 +190,11 @@ public class PlayerController : MonoBehaviour
         resetting = false;
 
     }
+    
+    
 }
+
+
 
 
 

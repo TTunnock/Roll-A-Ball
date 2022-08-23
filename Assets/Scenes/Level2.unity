@@ -1110,14 +1110,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fd40af3c533a044bfafd01b7fd3853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   speed: 8
   TopScore: 0
-  Score: 0
-  scoreText: {fileID: 1745644505}
-  winText: {fileID: 797961688}
+  wonGame: 0
   inGamePanel: {fileID: 673247041}
   winPanel: {fileID: 698263070}
   pickupFill: {fileID: 0}
+  gameOverScreen: {fileID: 0}
+  scoreText: {fileID: 1745644505}
+  winText: {fileID: 0}
 --- !u!1001 &87669961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4164,6 +4166,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KnifeHazard_LP
       objectReference: {fileID: 0}
+    - target: {fileID: 63982677793958810, guid: 8ec04711c03e2d1418f16e3b03359a40, type: 3}
+      propertyPath: m_TagString
+      value: Respawn
+      objectReference: {fileID: 0}
     - target: {fileID: 840096447446626592, guid: 8ec04711c03e2d1418f16e3b03359a40, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4786,6 +4792,10 @@ PrefabInstance:
     - target: {fileID: 63982677793958810, guid: 8ec04711c03e2d1418f16e3b03359a40, type: 3}
       propertyPath: m_Name
       value: KnifeHazard_LP
+      objectReference: {fileID: 0}
+    - target: {fileID: 63982677793958810, guid: 8ec04711c03e2d1418f16e3b03359a40, type: 3}
+      propertyPath: m_TagString
+      value: Respawn
       objectReference: {fileID: 0}
     - target: {fileID: 840096447446626592, guid: 8ec04711c03e2d1418f16e3b03359a40, type: 3}
       propertyPath: m_RootOrder

@@ -41,9 +41,9 @@ public class PlayerController : MonoBehaviour
     public TMP_Text yourScoreResult;
     public TMP_Text bestScoreResult;
 
-
+    //Controllers
     SceneController sceneController;
-   
+    SoundController soundController;
 
     //Controllers
     //GameController gameController;
@@ -75,6 +75,9 @@ public class PlayerController : MonoBehaviour
         CheckPickups();
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
+
+        //sound
+        soundController = FindObjectOfType<SoundController>();
 
         //timer
         timerIsRunning = true;
@@ -173,6 +176,7 @@ public class PlayerController : MonoBehaviour
             CheckPickups();
 
             Destroy(other.gameObject);
+            soundController.PlayPickupSound();
         }
         //if we collide with a pickup, destroy the pickup
         if (other.gameObject.CompareTag("NegativePickup"))
@@ -185,6 +189,8 @@ public class PlayerController : MonoBehaviour
             CheckPickups();
 
             Destroy(other.gameObject);
+            soundController.PlayNegativePickupSound();
+
         }
     }
 
@@ -197,6 +203,8 @@ public class PlayerController : MonoBehaviour
             //Turn on off in game panel
             inGamePanel.SetActive(false);
             winPanel.SetActive(true);
+            //sound
+            soundController.PlayGameOverSound();
             //score results
             scoresPanel.SetActive(true);
             yourScoreResult.text = Score.ToString("F3");

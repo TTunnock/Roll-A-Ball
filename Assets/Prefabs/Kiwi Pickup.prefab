@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3438504763979261524}
   - component: {fileID: 3438504763979261531}
   - component: {fileID: 3438504763979261530}
-  - component: {fileID: 3438504763979261529}
+  - component: {fileID: 4656379845817381717}
   m_Layer: 0
   m_Name: Kiwi Pickup
   m_TagString: Pickup
@@ -110,23 +110,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fd40af3c533a044bfafd01b7fd3853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   speed: 1
+  timeRemaining: 10
+  timerIsRunning: 0
+  timeText: {fileID: 0}
   pickupCount: 0
-  scoreText: {fileID: 0}
-  winText: {fileID: 0}
+  wonGame: 0
   inGamePanel: {fileID: 0}
   winPanel: {fileID: 0}
   pickupFill: {fileID: 0}
---- !u!114 &3438504763979261529
+  bestScore: 0
+  gameOverScreen: {fileID: 0}
+  scoreText: {fileID: 0}
+  winText: {fileID: 0}
+  scoresPanel: {fileID: 0}
+  yourScoreResult: {fileID: 0}
+  bestScoreResult: {fileID: 0}
+--- !u!114 &4656379845817381717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3438504763979261528}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12d34d2d5923ad48935f8b5fd03c975, type: 3}
+  m_Script: {fileID: 11500000, guid: 2eaaee9678e019642b765455885652b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  waitTime: 0
+  speed: 10
+  toRotation: {x: 0, y: 90, z: 0}

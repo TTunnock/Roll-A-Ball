@@ -19,6 +19,7 @@ public class SceneController : MonoBehaviour
     public void ToTitleScene()
     {
         SceneManager.LoadScene("Title");
+
     }
 
     //Gets our active scenes name

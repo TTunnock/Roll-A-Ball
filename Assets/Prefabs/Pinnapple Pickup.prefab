@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2126272934226359147}
   - component: {fileID: 4832362469539019876}
   - component: {fileID: 3102141195500595034}
+  - component: {fileID: 5846846435822479109}
   m_Layer: 0
   m_Name: Pinnapple Pickup
   m_TagString: Pickup
@@ -110,3 +111,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
+--- !u!114 &5846846435822479109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3759743058182298579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eaaee9678e019642b765455885652b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 0
+  speed: 10
+  toRotation: {x: 0, y: 90, z: 0}

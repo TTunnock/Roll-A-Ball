@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pickup
   - NegativePickup
+  - Teleporter
   layers:
   - Default
   - TransparentFX

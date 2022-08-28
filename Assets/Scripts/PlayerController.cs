@@ -4,52 +4,102 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
+
 public class PlayerController : MonoBehaviour
 {
     //variables
     //float values require f after the value
-    Rigidbody rb;
+    public Rigidbody rb;
     public float speed = 1.0f;
-    public int Score;
+    //timer
+    public float timeRemaining = 10;
+    public bool timerIsRunning = false;
+    public TMP_Text timeText;
+   
+    
+    public int pickupCount;
+    private int Score;
     int totalPickups;
     GameObject resetPoint;
     bool resetting = false;
     Color originalColour;
-    private bool wonGame = false;
-    [Header("UI")]
-    public TMP_Text scoreText;
-    public TMP_Text winText;
-    
+    public bool wonGame = false;
     public GameObject inGamePanel;
     public GameObject winPanel;
     public Image pickupFill;
     float pickupChunk;
+    public int bestScore;
+
+    [Header("UI")]
+    public GameObject gameOverScreen;
+    public TMP_Text scoreText;
+    public Image winText;
+
+    [Header("UI WinPanel")]
+    public GameObject scoresPanel;
+    public TMP_Text yourScoreResult;
+    public TMP_Text bestScoreResult;
+
+    //Controllers
+    SceneController sceneController;
+    SoundController soundController;
+
+    //Controllers
+    //GameController gameController;
+   // Timer timer;
 
 
-    
-    
-    private void Start()
+    void Start()
     {
-        
+
         //Turn off our win text object
         winPanel.SetActive(false);
         //Turn on our in game panel
         inGamePanel.SetActive(true);
+        //turn off score panel
+        scoresPanel.SetActive(false);
         //Gets the rigidbody component attached to this game object
         rb = GetComponent<Rigidbody>();
         //work out how many pickups are in the scene and store in variable (pickupCount)
-        Score = GameObject.FindGameObjectsWithTag("Pickup").Length;
+        pickupCount = GameObject.FindGameObjectsWithTag("Pickup").Length;
         //Asign the amount of pickups to the total pickups
-        totalPickups = Score;
+        totalPickups = pickupCount;
         //Work out the amount of fill for our pickup fill
-        pickupChunk = 1.0f / Score;
+        pickupChunk = 1.0f / pickupCount;
         pickupFill.fillAmount = 0;
+        //Start Score at zero
+        Score = 0;
+        gameOverScreen.SetActive(false);
         //Display the pickups to the user
         CheckPickups();
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
+
+        //sound
+        soundController = FindObjectOfType<SoundController>();
+
+        //timer
+        timerIsRunning = true;
+
+       // gameController = FindObjectOfType<GameController>();
+        //timer = FindObjectOfType<Timer>();
+        //if (gameController.gameType == GameType.SpeedRun)
+            //StartCoroutine(timer.StartCountdown());
+
+        
     }
-  
+
+    public IEnumerator BestScore()
+    {
+        yield return new WaitForEndOfFrame();
+        if (PlayerPrefs.HasKey("BestScore"))
+        {
+            bestScore = PlayerPrefs.GetInt("BestScore" + sceneController.GetSceneName());
+        }
+        else
+            bestScore = 0;
+    }
 
     void FixedUpdate()
     {
@@ -58,6 +108,11 @@ public class PlayerController : MonoBehaviour
 
         if (wonGame == true)
             return;
+
+        
+
+        //if (gameController.gameType == GameType.SpeedRun && !timer.IsTiming())
+            //return;
 
         //movement controls
         //Store the horizontal axis value in a float
@@ -73,8 +128,33 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    void Update()
+    //timer
+    {
+        if (timerIsRunning)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+                DisplayTime(timeRemaining);
+            }
+            else
+            {
+                Debug.Log("Time Up!");
+                timeRemaining = 0;
+                timerIsRunning = false;
 
-
+                GameOver();
+            }
+        }
+    }
+    void DisplayTime(float timeToDisplay)
+    {
+        timeToDisplay += 1;
+        float minutes = Mathf.FloorToInt(timeToDisplay / 60);
+        float seconds = Mathf.FloorToInt(timeToDisplay % 60);
+        timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
 
 
 
@@ -89,13 +169,14 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Pickup"))
         {
             //Increase the Score when we collide with a pickup
-            Score += 1;
+            Score += 2;
             //Increase the fill amount of our pickup fill image
             pickupFill.fillAmount = pickupFill.fillAmount + pickupChunk;
             //Display the pickups to the user
             CheckPickups();
 
             Destroy(other.gameObject);
+            soundController.PlayPickupSound();
         }
         //if we collide with a pickup, destroy the pickup
         if (other.gameObject.CompareTag("NegativePickup"))
@@ -108,28 +189,56 @@ public class PlayerController : MonoBehaviour
             CheckPickups();
 
             Destroy(other.gameObject);
+            soundController.PlayNegativePickupSound();
+
+        }
+    }
+
+    void GameOver()
+    {
+
+        ////Check if the pickupCount == 0
+        //if (timeRemaining == 0)
+        {
+            //Turn on off in game panel
+            inGamePanel.SetActive(false);
+            winPanel.SetActive(true);
+            //sound
+            soundController.PlayGameOverSound();
+            //score results
+            scoresPanel.SetActive(true);
+            yourScoreResult.text = Score.ToString("F3");
+            bestScoreResult.text = bestScore.ToString("F3");
+
+            if (Score <= bestScore)
+            {
+                bestScore = Score;
+                PlayerPrefs.SetInt("BestScore" + sceneController.GetSceneName(), bestScore);
+                bestScoreResult.text = bestScore.ToString("F3") + "!! NEW BEST !!";
+            }
+            
+            //remove controls from player
+            wonGame = true;
+            //Set the velocity of the rigidbody to zero
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
     }
 
     void CheckPickups()
     {
         //Display the new pickupCount to the player
-        scoreText.text = "Fruits Left:" + Score.ToString() + "/" + totalPickups.ToString();
-        //Check if the pickupCount == 0
-        if (Score == 0)
-        {
-            //Turn on off in game panel
-            inGamePanel.SetActive(false);
-            winPanel.SetActive(true);
-            //remove controls from player
-            wonGame = true;
-            //Set the velocity of the rigidbody to zero
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+        scoreText.text = "Score:" + Score.ToString();
+    }
+   // void WinGame()
+    //{
+    //    //gameOverScreen.SetActive(true);
 
-        }
-    } 
+    //    //if (gameController.gameType == GameType.SpeedRun)
+    //        //timer.StopTimer();
+    //}
     
+
     //Temporary reset functionality
     public void ResetGame()
     {
@@ -138,7 +247,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Respawn"))
+        if (collision.gameObject.CompareTag("Respawn"))
         {
             StartCoroutine(ResetPlayer());
         }
@@ -163,7 +272,11 @@ public class PlayerController : MonoBehaviour
         resetting = false;
 
     }
+    
+    
 }
+
+
 
 
 

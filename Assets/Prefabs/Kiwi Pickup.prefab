@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 3438504763979261525}
   - component: {fileID: 3438504763979261524}
   - component: {fileID: 3438504763979261531}
-  - component: {fileID: 3438504763979261530}
-  - component: {fileID: 3438504763979261529}
   m_Layer: 0
   m_Name: Kiwi Pickup
   m_TagString: Pickup
@@ -29,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3438504763979261528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35915834, y: 0.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,37 +94,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3438504763979261530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438504763979261528}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5fd40af3c533a044bfafd01b7fd3853, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 1
-  pickupCount: 0
-  scoreText: {fileID: 0}
-  winText: {fileID: 0}
-  inGamePanel: {fileID: 0}
-  winPanel: {fileID: 0}
-  pickupFill: {fileID: 0}
---- !u!114 &3438504763979261529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438504763979261528}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f12d34d2d5923ad48935f8b5fd03c975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
+  m_Size: {x: 1, y: 1.999852, z: 1}
+  m_Center: {x: -0.5, y: -0.994593, z: -0.5}
